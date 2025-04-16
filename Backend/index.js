@@ -4,6 +4,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
+
 //utils
 import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -11,8 +12,9 @@ import userRoutes from "./routes/userRoutes.js";
 
 connectDB(); //connect to database
 dotenv.config();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const app = express();
+
 
 
 //database connection
