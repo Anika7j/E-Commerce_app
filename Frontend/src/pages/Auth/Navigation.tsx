@@ -58,28 +58,37 @@ export default function Navigation() {
         <span className="hidden nav-item-name mt-[3rem]">Favourite</span>
         </Link>
         </div>
-        <div className="realtive">
+        <div className="relative">
         <button
-            onClick={toggleDropdown}
-            className="flex items-center text-gray-700 focus:outline-none w-full"
-          >
-            {userInfo ? (
-              <span className="text-white">{userInfo.name}</span>
-            ) : (
-              <></>
-            )}
-            {userInfo ? (
-              <FaChevronDown
-                className={`text-white ml-1 duration-500 ${
-                  dropdownOpen ? "transform -rotate-180" : ""
-                }`}
+          onClick={toggleDropdown}
+          className="flex items-center text-gray-800 focus:outline-none"
+        >
+          {userInfo ? (
+            <span className="text-white">{userInfo.name}</span>
+          ) : (
+            <></>
+          )}
+          {userInfo && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-4 w-4 ml-1 ${
+                dropdownOpen ? "transform rotate-180" : ""
+              }`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d={dropdownOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
               />
-            ) : (
-              <></>
-            )}
-          </button>
+            </svg>
+          )}
+        </button>
             {dropdownOpen && userInfo && (
-                <ul className={`absoulte right-0 mt-2 mr-14 space-y-2 bg-white text-gray-600 ${!userInfo.isAdmin ? '-top-20' : '-top-80'}`}>
+                <ul className={`absoulte right-1 mt-2 mr-14 space-y-1 bg-white text-gray-600 ${!userInfo.isAdmin ? '-top-20' : '-top-80'}`}>
                    {userInfo.isAdmin && (
                     <>
                     <li>
@@ -128,7 +137,7 @@ export default function Navigation() {
                         <Link 
                         to='/admin/logout'
                         onClick={logoutHandler} 
-                        className="block px-4 py-2 hover:bg-gray-100">
+                        className="block px-4 py-2 w-full text-left hover:bg-gray-100">
                             Logout
                         </Link>
                     </li>

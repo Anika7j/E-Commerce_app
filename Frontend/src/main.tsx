@@ -17,6 +17,7 @@ import Register from './pages/Auth/Register.tsx'
 
 import AdminRoute from './pages/Admin/AdminRoute.tsx'
 import UserList from './pages/Admin/UserList.tsx'
+import CategoryList from './pages/Admin/CategoryList.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path='/admin' element={<AdminRoute/>}>
       <Route path='userlist' element={<UserList/>}/>
+      <Route path='categorylist' element={<CategoryList/>}/>
       </Route>
     </Route>
   )
