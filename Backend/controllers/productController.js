@@ -123,7 +123,8 @@ const getProductById = asyncHandler(async(req,res)=>{
 })
 const fetchAllProducts = asyncHandler(async(req,res)=>{
     try{
-        const products = await Product.find({}).populate('category').limit(12).sort({createAt: -1})
+        
+        const products = await Product.find({}).populate("category").limit(12).sort({createAt:-1})
         res.json(products)
 
     } catch(error){
@@ -135,9 +136,18 @@ const fetchAllProducts = asyncHandler(async(req,res)=>{
 const addProductReview =  asyncHandler(async(req,res)=>{
     try {
         const {rating, comment} = req.body;
-        const product = await Product.findById(req.params.id)
+        if (!rating || !comment) {
+            res.status(400);
+            throw new Error("Rating and comment are required");
+        }
+        const product = await Product.findById(req.params.id).populate("reviews")
         if(product){
-            const alreadyReviewed = product.reviews.find((r)=>r.user.toString()=== r.user._id.toString())
+            if(!Array.isArray(product.reviews)){
+                product.reviews = [];
+            }
+            const alreadyReviewed = product.reviews.find(
+                (r) => r.user.toString() === req.user._id.toString()
+              );
             if(alreadyReviewed){
                 res.status(400)
                 throw new Error("Product already reviewed")
@@ -188,4 +198,22 @@ const newProducts = asyncHandler(async(req,res)=>{
     }
 })
 
-export {addProduct,updateProduct,deleteproduct,allProducts,getProductById,fetchAllProducts,addProductReview,fetchTopProducts,newProducts}
+const filterProducts = asyncHandler(async(req,res)=>{
+    try{
+        const {checked, radio} = req.body
+
+        let args = {}
+
+        if(checked.length > 0) args.category = checked;
+        if(radio.length) args.price = {$gte: radio[0], $lte: radio[1]}
+
+        const products = await Product.find(args);
+        res.json(products);
+
+    }catch(error){
+        console.error(error)
+        res.status(500).json({error: "Server Error"})
+    }
+})
+
+export {addProduct,updateProduct,deleteproduct,allProducts,getProductById,fetchAllProducts,addProductReview,fetchTopProducts,newProducts,filterProducts}

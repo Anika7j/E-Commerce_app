@@ -11,20 +11,25 @@ import { addProduct,
     fetchAllProducts,
     addProductReview,
     fetchTopProducts,
-    newProducts
+    newProducts,
+    filterProducts
  } from "../controllers/productController.js";
 
 const router = express.Router()
 
 router.route('/').get(allProducts).post(authenticateUser,authorizeAdmin, formidable(), addProduct)
-router.route('/:id').get(getProductById).put(authenticateUser,authorizeAdmin,formidable(),updateProduct).delete(authenticateUser,authorizeAdmin,deleteproduct)
-
 router.route('/allproducts').get(fetchAllProducts)
-router.route('/:id/reviews').post(authenticateUser,authorizeAdmin,addProductReview)
-
 
 router.get('/top',fetchTopProducts)
 router.get('/new',newProducts)
+
+
+router.route('/filtered-products').post(filterProducts)
+
+router.route('/:id/reviews').post(authenticateUser,checkId,addProductReview)
+router.route('/:id').get(getProductById).put(authenticateUser,authorizeAdmin,formidable(),updateProduct).delete(authenticateUser,authorizeAdmin,deleteproduct)
+
+
 
 
 export default router;

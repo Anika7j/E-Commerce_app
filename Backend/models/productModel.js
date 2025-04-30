@@ -4,19 +4,10 @@ const {ObjectId} = mongoose.Schema
 
 
 const reviewSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true
-    },
-    rating:{
-        type:Number,
-        required:true
-    },
-    comment:{
-        type: mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref: "User"
-    }
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true }, // Ensure this is a String
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 },{timestamps: true})
 
 const productSchema = new mongoose.Schema({
@@ -26,7 +17,7 @@ const productSchema = new mongoose.Schema({
     quantity: {type:Number, required:true},
     category: {type: ObjectId, ref:"Category", required:true},
     description: {type:String,required:true},
-    reviews: {reviewSchema},
+    reviews: [reviewSchema],
     rating: {type: Number, required: true, default: 0},
     numReviews: {type: Number, required: true, default: 0},
     price: {type:Number, required: true, default:0},
